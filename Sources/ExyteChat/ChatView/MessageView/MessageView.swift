@@ -154,7 +154,9 @@ struct MessageView: View {
     var avatarView: some View {
         Group {
             if showAvatar {
-                AvatarView(url: message.user.avatarURL, avatarSize: avatarSize)
+                if let profileURL = message.user.profileImageURL, let url = URL(string: profileURL) {
+                    AvatarView(url: url, avatarSize: avatarSize)
+                }
             } else {
                 Color.clear.viewSize(avatarSize)
             }
@@ -259,35 +261,3 @@ extension View {
             .cornerRadius(radius)
     }
 }
-
-#if DEBUG
-struct MessageView_Preview: PreviewProvider {
-    static private var shortMessage = "Hi, buddy!"
-    static private var longMessage = "Hello hello hello hello hello hello hello hello hello hello hello hello hello\n hello hello hello hello d d d d d d d d"
-
-    static private var message = Message(
-        id: UUID().uuidString,
-        user: User(id: UUID().uuidString, name: "Stan", avatarURL: nil, isCurrentUser: false),
-        status: .read,
-        text: longMessage,
-        attachments: [
-            Attachment.randomImage(),
-            Attachment.randomImage(),
-            Attachment.randomImage(),
-            Attachment.randomImage(),
-            Attachment.randomImage(),
-        ]
-    )
-
-    static var previews: some View {
-        MessageView(
-            viewModel: ChatViewModel(),
-            message: message,
-            positionInGroup: .single,
-            avatarSize: 32,
-            messageUseMarkdown: false,
-            isDisplayingMessageMenu: false
-        )
-    }
-}
-#endif
