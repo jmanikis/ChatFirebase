@@ -1,9 +1,9 @@
 //
 //  Created by Alex.M on 17.06.2022.
 //
-
 import Foundation
 import SwiftUI
+import Firebase
 
 public struct User: Identifiable, Codable, Equatable, Hashable {
     public let id: String
@@ -31,6 +31,11 @@ public struct User: Identifiable, Codable, Equatable, Hashable {
     public var fullName: String {
         guard let firstName, let lastName else { return "" }
         return (firstName + lastName)
+    }
+    
+    public var isCurrentUser: Bool {
+        guard let currentUID = Auth.auth().currentUser.uid else { return false }
+        return id == currentUID
     }
 
     public init(
