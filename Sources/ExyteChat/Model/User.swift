@@ -34,7 +34,7 @@ public struct User: Identifiable, Codable, Equatable, Hashable {
     }
     
     public var isCurrentUser: Bool {
-        guard let currentUID = Auth.auth().currentUser.uid else { return false }
+        guard let currentUID = Auth.auth().currentUser?.uid else { return false }
         return id == currentUID
     }
 
