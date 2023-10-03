@@ -28,9 +28,9 @@ public struct User: Identifiable, Codable, Equatable, Hashable {
     public let selectedSoftwares: [String]?
     public let pharmacy: [String]?
 
-    public var fullName: String {
+    public var name: String {
         guard let firstName, let lastName else { return "" }
-        return (firstName + lastName)
+        return "\(firstName) \(lastName)"
     }
     
     public var isCurrentUser: Bool {
